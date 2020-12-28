@@ -6,7 +6,7 @@ public class MazeSolver {
             {0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0},
             {0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
             {1, 1, 1, 2, 0, 1, 0, 1, 0, 1, 0},
-            {0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
             {0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1},
     };
 
@@ -17,10 +17,16 @@ public class MazeSolver {
     static LinkedList<Position> path = new LinkedList<>();
 
     public static void main(String[] args) {
-        Position p = new Position(4, 8);
+        if(solveMaze(new Position(4,8))) {
+            System.out.println("You won!");
+        } else {
+            System.out.println("No path");
+        }
+    }
+
+
+    private static boolean solveMaze(Position p) {
         path.push(p);
-
-
         while(true) {
 
             int y = path.peek().y;
@@ -30,10 +36,10 @@ public class MazeSolver {
             // down
             if(isValid(y+1, x)) {
                 if(maze[y+1][x] == 2) {
-                    System.out.println("Moved down. You won!");
-                    return;
+                    System.out.println("Moved down. \u2193");
+                    return true;
                 } else if(maze[y+1][x] == 1) {
-                    System.out.println("Moved Down");
+                    System.out.println("Moved Down. \u2193");
                     path.push(new Position(y+1 , x));
                     continue;
                 }
@@ -42,8 +48,8 @@ public class MazeSolver {
             // left
             if(isValid(y, x-1)) {
                 if(maze[y][x-1] == 2) {
-                    System.out.println("Moved left. You won!");
-                    return;
+                    System.out.println("Moved left.");
+                    return true;
                 } else if(maze[y][x-1] == 1) {
                     System.out.println("Moved Left");
                     path.push(new Position(y , x-1));
@@ -54,10 +60,10 @@ public class MazeSolver {
             // up
             if(isValid(y-1, x)) {
                 if(maze[y-1][x] == 2) {
-                    System.out.println("Moved up. You won!");
-                    return;
+                    System.out.println("Moved up.");
+                    return true;
                 } else if(maze[y-1][x] == 1) {
-                    System.out.println("Moved Up");
+                    System.out.println("Moved up.");
                     path.push(new Position(y-1 , x));
                     continue;
                 }
@@ -66,8 +72,8 @@ public class MazeSolver {
             // right
             if(isValid(y, x+1)) {
                 if(maze[y][x+1] == 2) {
-                    System.out.println("Moved right. You won!");
-                    return;
+                    System.out.println("Moved right.");
+                    return true;
                 } else if(maze[y][x+1] == 1) {
                     System.out.println("Moved Right");
                     path.push(new Position(y , x+1));
@@ -79,9 +85,10 @@ public class MazeSolver {
             System.out.println("Moved back");
             if(path.size() <= 0) {
                 System.out.println("No path");
-                return;
+                return false;
             }
         }
+
     }
 
     public static boolean isValid(int y, int x) {
